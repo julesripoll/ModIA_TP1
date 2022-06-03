@@ -1,3 +1,6 @@
+import tensorflow as tf  
+import tensorboard as tb  
+tf.io.gfile = tb.compat.tensorflow_stub.io.gfile
 import argparse # to parse script arguments
 from statistics import mean # to compute the mean of a list
 from tqdm import tqdm #used to generate progress bar during training
@@ -35,7 +38,7 @@ def train(net, optimizer, loader, epochs=5, writer=None):
             input_grid = make_grid(x[:16].detach().cpu())
             writer.add_image('Input', input_grid, epoch)
             # Logging a sample of predicted outputs in tensorboard
-            colorized_grid = make_grid(outputs[:16].detach().cpu())
+            colorized_grid = make_grid(y_hat[:16].detach().cpu())
             writer.add_image('Predicted', colorized_grid, epoch)
             # Logging a sample of ground truth in tensorboard
             original_grid = make_grid(y[:16].detach().cpu())
